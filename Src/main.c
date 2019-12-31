@@ -97,6 +97,7 @@ struct LED tst[LEDS_CNT];
   * @brief  The application entry point.
   * @retval int
   */
+#include <math.h>
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -208,9 +209,9 @@ const uint8_t leds_cnt = LEDS_CNT;
 leds_init(tst, leds_cnt);
     
 for(uint8_t i = 0; i < leds_cnt; ++i) {
-    tst[i].R = 0x20 * (i+1);
-    tst[i].G = 0x40 * (i+1);
-    tst[i].B = 0xF0 * (i+1);
+    tst[i].R = 0x20;
+    tst[i].G = 0x40;
+    tst[i].B = 0xF0;
     tst[i].type = LED_SENS_RAISING;
     tst[i].pos = i;
     tst[i].intens_inc = 0.001;
@@ -221,15 +222,29 @@ for(uint8_t i = 0; i < leds_cnt; ++i) {
     tst[i].time_divider = 0x1;
 }
 
-  while (1)
-  {
-//HAL_Delay(1);
-
 for(uint8_t i = 0; i < leds_cnt; ++i) {
     tst[i].R = (rand()%0xEF + 0x10);
     tst[i].G = (rand()%0xE0 + 0x1F);
     tst[i].B = (rand()%0xEF + 0x10);
 }
+uint16_t led_cnt = 1;
+  while (1)
+  {
+//HAL_Delay(1);
+
+    tst[led_cnt].R = tst[led_cnt-1].R;
+    tst[led_cnt].G = tst[led_cnt-1].G;
+    tst[led_cnt].B = tst[led_cnt-1].B;
+
+    led_cnt++;
+    if(led_cnt > leds_cnt) {
+        led_cnt = 1;
+        for(uint8_t i = 0; i < leds_cnt; ++i) {
+            tst[i].R = (rand()%0xEF + 0x10);
+            tst[i].G = (rand()%0xE0 + 0x1F);
+            tst[i].B = (rand()%0xEF + 0x10);
+        }
+    }
     tst->update_time();
 
     leds_to_dma(tst, leds_cnt);

@@ -2,7 +2,7 @@
 
 #include "ws2818.h"
 
-#define LEDS_BUF (LEDS_CNT * 24 + LEDS_DELAY)
+#define LEDS_BUF (LEDS_CNT * 24 + LEDS_DELAY) 
 #define LEDS_DELAY (uint16_t)(50/1.3 + 10)
 #define LEDS_HIGH (uint16_t)(htim3.Init.Period / 1.8)
 #define LEDS_LOW (uint16_t)(htim3.Init.Period / 3)
