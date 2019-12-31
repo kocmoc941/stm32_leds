@@ -2,7 +2,7 @@
 
 #include "ws2818.h"
 
-#define LEDS_BUF LEDS_CNT * 24 + LED_DELAY
+#define LEDS_BUF (LEDS_CNT * 24 + LEDS_DELAY)
 #define LEDS_DELAY (uint16_t)(50/1.3 + 10)
 #define LEDS_HIGH (uint16_t)(htim3.Init.Period / 1.8)
 #define LEDS_LOW (uint16_t)(htim3.Init.Period / 3)
@@ -32,7 +32,7 @@ void leds_init(void *ins, const uint8_t length)
         //m_led[i].__time = 0x0;
         m_led[i].pos = i;
         m_led[i].repeate = 0;
-        m_led[i].divider = 0;
+        m_led[i].time_divider = 0;
     }
 }
 
@@ -50,7 +50,7 @@ static void _update_time(void)
         switch((uint8_t)ptr->type) {
             case LED_SENS_FALLING: {
                 if(ptr->__intens > ptr->intens_min) {
-                    if(!ptr->divider || !(ptr->__time % ptr->divider)) {
+                    if(!ptr->time_divider || !(ptr->__time % ptr->time_divider)) {
                         ptr->__intens -= ptr->intens_inc;
                     }
                 } else if(ptr->repeate) {
@@ -60,7 +60,7 @@ static void _update_time(void)
             }
             case LED_SENS_RAISING: {
                 if(ptr->__intens < ptr->intens_max) {
-                    if(!ptr->divider || !(ptr->__time % ptr->divider)) {
+                    if(!ptr->time_divider || !(ptr->__time % ptr->time_divider)) {
                         ptr->__intens += ptr->intens_inc;
                     }
                 } else if(ptr->repeate) {

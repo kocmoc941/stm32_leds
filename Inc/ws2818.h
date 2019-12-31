@@ -26,7 +26,7 @@ struct LED {
     uint8_t G;
     uint8_t B;
     enum LED_TYPE type;
-    uint16_t divider;
+    uint16_t time_divider;
     uint16_t __time;
     uint8_t pos;
     uint8_t repeate;

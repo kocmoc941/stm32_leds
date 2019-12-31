@@ -214,11 +214,11 @@ for(uint8_t i = 0; i < leds_cnt; ++i) {
     tst[i].type = LED_SENS_RAISING;
     tst[i].pos = i;
     tst[i].intens_inc = 0.001;
-    tst[i].__intens = 0.005;
+    tst[i].__intens = 0.005; // init intensity
     tst[i].repeate = 1;
     tst[i].intens_min = 0.005;
     tst[i].intens_max = 0.05;
-    tst[i].divider = 0x1;
+    tst[i].time_divider = 0x1;
 }
 
   while (1)
